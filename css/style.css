@@ -138,6 +138,24 @@ header {
     font-size: 13px;
     letter-spacing: 1px;
     text-transform: uppercase;
+    position: relative;
+    padding: 10px 0;
+}
+
+.header-nav-list a::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 1px;
+    background: var(--primary-color);
+    transition: var(--transition);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.header-nav-list a:hover::after {
+    width: 100%;
 }
 
 .header-nav-list a:hover {
@@ -148,13 +166,94 @@ header h1 {
     display: none; /* Hide default H1 in header since we have logo */
 }
 
-/* Mobile Nav Toggle (Simplified for now) */
+/* Mobile Nav Toggle */
+.nav-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 15px;
+    z-index: 2000;
+}
+
+.hamburger {
+    display: block;
+    position: relative;
+    width: 25px;
+    height: 2px;
+    background: var(--primary-color);
+    transition: var(--transition);
+}
+
+.hamburger::before,
+.hamburger::after {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 2px;
+    background: var(--primary-color);
+    transition: var(--transition);
+    left: 0;
+}
+
+.hamburger::before {
+    top: -8px;
+}
+
+.hamburger::after {
+    top: 8px;
+}
+
+/* Active State for Toggle */
+.nav-toggle.nav-active .hamburger {
+    background: transparent;
+}
+
+.nav-toggle.nav-active .hamburger::before {
+    transform: rotate(45deg);
+    top: 0;
+}
+
+.nav-toggle.nav-active .hamburger::after {
+    transform: rotate(-45deg);
+    top: 0;
+}
+
 @media (max-width: 768px) {
     header {
         padding: 0 20px;
     }
+
+    .nav-toggle {
+        display: block;
+    }
+
     .header-nav-list {
-        display: none; /* TODO: Add mobile menu toggle */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: min(75vw, 400px);
+        height: 100vh;
+        background: var(--bg-card);
+        z-index: 1000;
+        transition: var(--transition);
+        box-shadow: -10px 0px 30px -15px rgba(2, 12, 27, 0.7);
+    }
+
+    .header-nav-list.nav-active {
+        right: 0;
+    }
+
+    .header-nav-list li {
+        margin: 20px 0;
+    }
+
+    .header-nav-list a {
+        font-size: clamp(14px, 4vw, 18px);
     }
 }
 
@@ -192,15 +291,7 @@ header h1 {
     white-space: nowrap;
     overflow: hidden;
     border-right: 0.15em solid var(--primary-color); /* The cursor */
-    animation: 
-        typing 3.5s steps(40, end),
-        blink-caret .75s step-end infinite;
-}
-
-/* The typing effect */
-@keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
+    animation: blink-caret .75s step-end infinite;
 }
 
 /* The typewriter cursor effect */
